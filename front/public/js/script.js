@@ -11,11 +11,11 @@ addEventListener("DOMContentLoaded", async () => {
         productLink.setAttribute("href", `./product.html?id=${product._id}`);
 
         productLink.innerHTML = ` 
-        <article>
-          <img src="${product.imageUrl}" alt="${product.altTxt}">
-          <h3 class="productName">${product.name}</h3>
-          <p class="productDescription">${product.description}</p>
-        </article>
+            <article>
+            <img src="${product.imageUrl}" alt="${product.altTxt}">
+            <h3 class="productName">${product.name}</h3>
+            <p class="productDescription">${product.description}</p>
+            </article>
         `;
     });
 });
