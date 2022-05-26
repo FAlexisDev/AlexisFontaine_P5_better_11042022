@@ -38,11 +38,4 @@ const addToCartButton = document.querySelector("#addToCart");
 addToCartButton.addEventListener("click", () => {
     let productData = utils.getProductData(product);
     utils.addProductToCart(productData);
-    addToCartButton.style.background = "green";
-    addToCartButton.innerText = "Produit ajouté ! ";
-
-    setTimeout(() => {
-        addToCartButton.style.background = "#2c3e50";
-        addToCartButton.innerText = "Ajouter au panier";
-    }, 1000);
 });

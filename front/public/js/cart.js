@@ -110,8 +110,9 @@ cartForm.addEventListener("input", (e) => {
 //Event : Cart form submit
 cartForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    e.stopImmediatePropagation();
     const formData = new FormData(cartForm);
+    const productsInCart = JSON.parse(localStorage.getItem("data"));
+
     let contact = {
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
@@ -134,7 +135,6 @@ cartForm.addEventListener("submit", async (e) => {
         regex.address.test(formData.get("address"))
     ) {
         const postOrder = await ProductController.postOrder(order);
-
         Utils.onSubmit(postOrder.orderId);
     } else {
         alert("Merci de bien vouloir compléter correctement les champs du formulaire.");

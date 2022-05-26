@@ -18,6 +18,17 @@ export function getProductData(product) {
     return productToAdd;
 }
 
+export function buttonStyleAddProduct() {
+    const addToCartButton = document.querySelector("#addToCart");
+    addToCartButton.style.background = "green";
+    addToCartButton.innerText = "Produit ajouté ! ";
+
+    setTimeout(() => {
+        addToCartButton.style.background = "#2c3e50";
+        addToCartButton.innerText = "Ajouter au panier";
+    }, 1000);
+}
+
 export function addProductToCart(productToAdd) {
     let cart = JSON.parse(localStorage.getItem("data"));
     let productExist = false;
@@ -38,11 +49,13 @@ export function addProductToCart(productToAdd) {
                 if (product.id === productToAdd.id && product.color === productToAdd.color) {
                     product.quantity = Number(product.quantity) + Number(productToAdd.quantity);
                     localStorage.setItem("data", JSON.stringify(cart));
+                    buttonStyleAddProduct();
                 }
             });
         } else {
             cart.push(productToAdd);
             localStorage.setItem("data", JSON.stringify(cart));
+            buttonStyleAddProduct();
         }
     }
 }
