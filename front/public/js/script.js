@@ -1,9 +1,12 @@
+// Import fetch request
 import * as ProductController from "./controllers/controllers.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // Import my request result.
     const productsArray = await ProductController.getProducts();
     const productsContainer = document.querySelector("#items");
 
+    // Add and display products.
     productsArray.forEach((product) => {
         const productLink = document.createElement("a");
 

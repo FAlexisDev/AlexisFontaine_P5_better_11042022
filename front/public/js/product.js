@@ -1,53 +1,8 @@
 import * as ProductController from "./controllers/controllers.js";
+import * as utils from "./utils/utils.js";
 
-function getUrlId() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
-
-    return id;
-}
-
-function getProductData(product) {
-    const colorValue = document.querySelector("#colors").value;
-    const quantityValue = document.querySelector("#quantity").value;
-    let productToAdd = {
-        name: product.name,
-        imgUrl: product.imageUrl,
-        id: product._id,
-        color: colorValue,
-        quantity: Number(quantityValue),
-    };
-    return productToAdd;
-}
-
-function addProductToCart(productToAdd) {
-    let cart = JSON.parse(localStorage.getItem("data"));
-    let productExist = false;
-
-    if (cart) {
-        cart.forEach((product) => {
-            if (product.id === productToAdd.id && product.color === productToAdd.color) {
-                productExist = true;
-            }
-        });
-    } else {
-        let cartArray = [];
-        cartArray.push(productToAdd);
-        localStorage.setItem("data", JSON.stringify(cartArray));
-    }
-    if (productExist) {
-        cart.forEach((product) => {
-            if (product.id === productToAdd.id && product.color === productToAdd.color) {
-                product.quantity = Number(product.quantity) + Number(productToAdd.quantity);
-                localStorage.setItem("data", JSON.stringify(cart));
-            }
-        });
-    } else {
-        cart.push(productToAdd);
-        localStorage.setItem("data", JSON.stringify(cart));
-    }
-}
-const productId = getUrlId();
+// Display product properties
+const productId = utils.getUrlId();
 const product = await ProductController.getProduct(productId);
 const productImgContainer = document.querySelector(".item__img");
 const productNameContainer = document.querySelector("#title");
@@ -60,8 +15,7 @@ productNameContainer.innerText = product.name;
 productPriceContainer.innerText = product.price;
 productDescriptionContainer.innerText = product.description;
 
-// Add color options
-
+// Add color's option
 product.colors.forEach((color) => {
     const addColorOption = document.createElement("option");
 
@@ -71,9 +25,24 @@ product.colors.forEach((color) => {
     productColorContainer.appendChild(addColorOption);
 });
 
-// Add to cart
+// Required quantity value between 0 to 100
+const quantityValue = document.querySelector("#quantity");
+quantityValue.addEventListener("input", (e) => {
+    if (e.target.value < 0 || e.target.value > 100) {
+        e.target.value = 1;
+    }
+});
+
+// Event : Add to cart
 const addToCartButton = document.querySelector("#addToCart");
 addToCartButton.addEventListener("click", () => {
-    let productData = getProductData(product);
-    addProductToCart(productData);
+    let productData = utils.getProductData(product);
+    utils.addProductToCart(productData);
+    addToCartButton.style.background = "green";
+    addToCartButton.innerText = "Produit ajouté ! ";
+
+    setTimeout(() => {
+        addToCartButton.style.background = "#2c3e50";
+        addToCartButton.innerText = "Ajouter au panier";
+    }, 1000);
 });
